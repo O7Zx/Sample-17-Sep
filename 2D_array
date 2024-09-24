@@ -1,15 +1,25 @@
+int[][] grid = {
+    {1, 7, 3, 4}, 
+    {5, 1, 7, 8}, 
+    {8, 2, 6, 5}, 
+    {2, 3, 4, 6}
+};
+
+boolean[][] revealed = new boolean[4][4]; // Track revealed numbers
+int[] firstSelection = {-1, -1}; // Store first selected number
+int[] secondSelection = {-1, -1}; // Store second selected number
+boolean isSecondSelection = false; // Flag for checking second selection
+boolean delayReveal = false; // For mismatch delay
+int delayTime = 1000; // Delay time in milliseconds
+int lastTime = 0;
+
 void setup() {
     size(500, 500);
     strokeWeight(4); // Make lines thicker
     background(255);
     textSize(32); // Set size for numbers
 
-    int[][] grid = {
-        {1, 7, 3, 4}, 
-        {5, 1, 7, 8}, 
-        {8, 2, 6, 5}, 
-        {2, 3, 4, 6}
-    };
+    
     int rows = grid.length;
     int cols = grid[0].length;
 
@@ -48,4 +58,34 @@ void drawGrid(int cols, int rows, int w, int h) {
 void draw_number(int x, int y, int n) {
     fill(0); // Set color for the text
     text(n, x, y); // Display number 'n' at position (x, y)
+}
+
+void mousePressed() {
+    if (delayReveal) return; // Prevent new clicks during mismatch delay
+
+    int w = width / 4;
+    int h = height / 4;
+    int row = mouseY / h;
+    int col = mouseX / w;
+
+    if (!revealed[row][col]) {
+        if (!isSecondSelection) {
+            firstSelection[0] = row;
+            firstSelection[1] = col;
+            revealed[row][col] = true; // Reveal first selection
+            isSecondSelection = true;
+        } else {
+            secondSelection[0] = row;
+            secondSelection[1] = col;
+            revealed[row][col] = true; // Reveal second selection
+            isSecondSelection = false;
+
+            // Check if the selected numbers match
+            if (grid[row][col] != grid[firstSelection[0]][firstSelection[1]]) {
+                // Start mismatch delay
+                delayReveal = true;
+                lastTime = millis();
+            }
+        }
+    }
 }
