@@ -89,3 +89,9 @@ void mousePressed() {
         }
     }
 }
+
+void hideMismatchedNumbers() {
+    // Hide the mismatched numbers
+    revealed[firstSelection[0]][firstSelection[1]] = false;
+    revealed[secondSelection[0]][secondSelection[1]] = false;
+}
