@@ -27,11 +27,17 @@ void setup() {
 
 void drawGrid(int cols, int rows, int w, int h) {
     stroke(0); // Set stroke color for grid lines
-    for (int i = 0; i <= rows; i++) {
+
+    int i = 0;
+    while (i <= rows) {
         line(0, i * h, width, i * h);
+        i++;
     }
-    for (int j = 0; j <= cols; j++) {
+
+    int j = 0;
+    while (j <= cols) {
         line(j * w, 0, j * w, height);
+        j++;
     }
 }
 
