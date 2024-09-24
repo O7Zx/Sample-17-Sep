@@ -19,7 +19,6 @@ void setup() {
     background(255);
     textSize(32); // Set size for numbers
 
-    
     int rows = grid.length;
     int cols = grid[0].length;
 
@@ -27,37 +26,18 @@ void setup() {
     int h = height / rows;
 
     drawGrid(cols, rows, w, h);
-    
-    int i = 0;
-    while (i < rows) {
-        int j = 0;
-        while (j < cols) {
-            draw_number(30 + j * w, 30 + i * h, grid[i][j]); // Adjusted for spacing
-            j++;
-        }
-        i++;
-    }
 }
 
-void drawGrid(int cols, int rows, int w, int h) {
-    stroke(0); // Light grid lines
+void draw() {
+    background(255); // Clear background each frame
+    drawGrid(4, 4, width / 4, height / 4);
+    revealNumbers(); // Display any revealed numbers
 
-    int i = 0;
-    while (i <= rows) {
-        line(0, i * h, width, i * h);
-        i++;
+    // Handle mismatch delay
+    if (delayReveal && millis() - lastTime >= delayTime) {
+        hideMismatchedNumbers();
+        delayReveal = false;
     }
-
-    int j = 0;
-    while (j <= cols) {
-        line(j * w, 0, j * w, height);
-        j++;
-    }
-}
-
-void draw_number(int x, int y, int n) {
-    fill(0); // Set color for the text
-    text(n, x, y); // Display number 'n' at position (x, y)
 }
 
 void mousePressed() {
@@ -96,6 +76,18 @@ void hideMismatchedNumbers() {
     revealed[secondSelection[0]][secondSelection[1]] = false;
 }
 
+void drawGrid(int cols, int rows, int w, int h) {
+    stroke(0); // Light grid lines
+
+    for (int i = 0; i <= rows; i++) {
+        line(0, i * h, width, i * h);
+    }
+
+    for (int j = 0; j <= cols; j++) {
+        line(j * w, 0, j * w, height);
+    }
+}
+
 void revealNumbers() {
     int w = width / 4;
     int h = height / 4;
@@ -107,4 +99,9 @@ void revealNumbers() {
             }
         }
     }
+}
+
+void draw_number(int x, int y, int n) {
+    fill(0); // Set color for the text
+    text(n, x, y); // Display number 'n' at position (x, y)
 }
