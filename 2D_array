@@ -95,3 +95,16 @@ void hideMismatchedNumbers() {
     revealed[firstSelection[0]][firstSelection[1]] = false;
     revealed[secondSelection[0]][secondSelection[1]] = false;
 }
+
+void revealNumbers() {
+    int w = width / 4;
+    int h = height / 4;
+
+    for (int i = 0; i < grid.length; i++) {
+        for (int j = 0; j < grid[0].length; j++) {
+            if (revealed[i][j]) {
+                draw_number(30 + j * w, 30 + i * h, grid[i][j]);
+            }
+        }
+    }
+}
